@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block title %}Parent dashboard{% endblock %}
+{% block content %}<h1>Parent / guardian dashboard</h1><div class="grid">{% for l in links %}<div class="card"><strong>{{ l.student.get_full_name }}</strong><br>{{ l.student.student_id }}<br><a href="{% url 'child_view' l.student.pk %}">Progress &amp; attendance</a> | <a href="{% url 'child_timetable' l.student.pk %}">Timetable</a></div>{% empty %}<p>No verified learners are linked to your account yet. Contact Professional Edge to link a learner.</p>{% endfor %}</div>{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Finance{% endblock %}
+{% block content %}<h1>Finance dashboard</h1>
+<p><a class="btn" href="{% url 'invoice_create' %}">New invoice</a> <a class="btn" href="{% url 'invoice_course' %}">Invoice a whole course</a> <a class="btn alt" style="color:var(--navy)" href="{% url 'invoice_list' %}">All invoices</a></p>
+<div class="grid"><div class="card"><small>Outstanding</small><br><strong style="font-size:1.4rem">USD {{ outstanding|floatformat:2 }}</strong></div>
+<div class="card"><small>Collected this month</small><br><strong style="font-size:1.4rem">USD {{ collected|floatformat:2 }}</strong></div>
+<div class="card"><small>Overdue invoices</small><br><strong style="font-size:1.4rem">{{ overdue|length }}</strong></div>
+<div class="card"><small>Awaiting confirmation</small><br><strong style="font-size:1.4rem">{{ pending|length }}</strong></div></div>
+<h3>Payments awaiting confirmation</h3><table>{% for p in pending %}<tr><td>{{ p.invoice.student.get_full_name }}</td><td>USD {{ p.amount }}</td><td>{{ p.get_method_display }} {{ p.reference }}</td><td><a href="{% url 'invoice_detail' p.invoice.pk %}">Review</a></td></tr>{% empty %}<tr><td>Nothing pending.</td></tr>{% endfor %}</table>
+<h3>Overdue</h3><table>{% for i in overdue %}<tr><td><a href="{% url 'invoice_detail' i.pk %}">{{ i.number }}</a></td><td>{{ i.student.get_full_name }}</td><td>Due {{ i.due_date|date:"d M Y" }}</td><td>USD {{ i.balance }}</td></tr>{% empty %}<tr><td>None.</td></tr>{% endfor %}</table>
+<h3>Recent activity</h3><table>{% for a in audit %}<tr><td>{{ a.at|date:"d M H:i" }}</td><td>{{ a.actor }}</td><td>{{ a.action }}</td><td>{{ a.detail }}</td></tr>{% endfor %}</table>{% endblock %}

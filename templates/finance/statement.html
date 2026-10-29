@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Fee statement{% endblock %}
+{% block content %}<h1>Fee statement - {{ student.get_full_name }}</h1><p>Total outstanding: <strong>USD {{ total_due }}</strong></p>
+<table><tr><th>Invoice</th><th>Description</th><th>Amount</th><th>Paid</th><th>Balance</th><th>Due</th><th>Status</th><th>Receipts</th></tr>{% for i in invoices %}<tr><td>{{ i.number }}</td><td>{{ i.description }}</td><td>{{ i.amount }}</td><td>{{ i.paid_total }}</td><td>{{ i.balance }}</td><td>{{ i.due_date|date:"d M Y" }}</td><td>{{ i.state }}</td><td>{% for p in i.payments.all %}{% if p.status == 'confirmed' %}<a href="{% url 'receipt_pdf' p.pk %}">{{ p.receipt_number }}</a> {% endif %}{% endfor %}</td></tr>{% empty %}<tr><td colspan="8">No invoices.</td></tr>{% endfor %}</table>
+<p><small>To pay, use the payment instructions given by Professional Edge and quote your student ID. Payments appear here once confirmed by the office.</small></p>{% endblock %}

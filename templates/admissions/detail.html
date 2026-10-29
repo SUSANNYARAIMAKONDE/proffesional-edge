@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}My application{% endblock %}
+{% block content %}<h1>My application</h1>
+<p>Reference: <strong>{{ app.reference }}</strong> &nbsp; Status: <span class="badge">{{ app.get_status_display }}</span></p>
+{% if app.admin_note_to_applicant %}<div class="msg"><strong>Message from Professional Edge:</strong><br>{{ app.admin_note_to_applicant|linebreaksbr }}</div>{% endif %}
+<table><tr><th>Name</th><td>{{ app.full_name }}</td></tr><tr><th>Level</th><td>{{ app.level }}</td></tr><tr><th>Subjects</th><td>{{ app.subjects|linebreaksbr }}</td></tr><tr><th>Exam board</th><td>{{ app.get_exam_board_display }}</td></tr><tr><th>Mode</th><td>{{ app.get_learning_mode_display }}</td></tr></table>
+<h3>Documents</h3><ul>{% for d in app.documents.all %}<li>{{ d.purpose }} - <a href="{% url 'document_download' d.pk %}">download</a></li>{% empty %}<li>None uploaded.</li>{% endfor %}</ul>
+{% if app.applicant_can_edit %}<form method="post" action="{% url 'document_upload' %}" enctype="multipart/form-data">{% csrf_token %}{{ doc_form.as_p }}<button type="submit">Upload (PDF/JPG/PNG, max 5 MB)</button></form>
+<p><a class="btn alt" style="color:var(--navy)" href="{% url 'application_edit' %}">Edit application</a></p>
+<form method="post" action="{% url 'application_submit' %}">{% csrf_token %}<button type="submit">Submit application</button></form>{% endif %}
+{% if app.status == 'approved' %}<p><a class="btn" href="{% url 'letter_pdf' app.pk %}">Download admission letter (PDF)</a></p>{% endif %}
+<h3>Status history</h3><table>{% for h in app.history.all %}<tr><td>{{ h.at|date:"d M Y H:i" }}</td><td>{{ h.new_status }}</td></tr>{% endfor %}</table>{% endblock %}

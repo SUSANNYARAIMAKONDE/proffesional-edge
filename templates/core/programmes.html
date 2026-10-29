@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block title %}Programmes{% endblock %}
+{% block content %}<h1>Programmes</h1><div class="grid">{% for p in programmes %}<div class="card"><h3>{{ p.name }}</h3>
+<p><span class="badge">{{ p.get_category_display }}</span> {{ p.exam_board }} {{ p.level }}</p><p>{{ p.description|linebreaksbr }}</p><a class="btn" href="{% url 'register' %}">Enrol Now</a></div>{% empty %}<p>No programmes published yet.</p>{% endfor %}</div>{% endblock %}

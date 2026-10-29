@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block title %}{{ title }}{% endblock %}
+{% block content %}<h1>{{ title }}</h1><p><a href="{% url 'tutor_course' back %}">Back to course</a></p><form method="post"{% if multipart %} enctype="multipart/form-data"{% endif %}>{% csrf_token %}{{ form.as_p }}<button type="submit">Save</button></form>{% endblock %}

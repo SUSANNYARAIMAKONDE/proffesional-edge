@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Review{% endblock %}
+{% block content %}<h1>{{ app.reference }} - {{ app.full_name }}</h1><p>Status: <span class="badge">{{ app.get_status_display }}</span> | Age: {{ app.age }}{% if app.is_minor %} (minor){% endif %} | Applicant: {{ app.user.email }}, {{ app.user.phone }}</p>
+<table><tr><th>Guardian</th><td>{{ app.guardian_name }} {{ app.guardian_phone }} {{ app.guardian_email }}</td></tr><tr><th>School</th><td>{{ app.current_school }}</td></tr><tr><th>Level</th><td>{{ app.level }}</td></tr><tr><th>Subjects</th><td>{{ app.subjects|linebreaksbr }}</td></tr><tr><th>Board / mode</th><td>{{ app.get_exam_board_display }} / {{ app.get_learning_mode_display }}</td></tr><tr><th>Timetable notes</th><td>{{ app.timetable_notes }}</td></tr><tr><th>Prior info</th><td>{{ app.prior_academic_info|linebreaksbr }}</td></tr></table>
+<h3>Documents</h3><ul>{% for d in app.documents.all %}<li>{{ d.purpose }} - <a href="{% url 'document_download' d.pk %}">download</a></li>{% empty %}<li>None.</li>{% endfor %}</ul>
+<h3>Record a decision</h3><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save decision &amp; notify applicant</button></form>
+{% if app.status == 'approved' %}<p><a class="btn" href="{% url 'letter_pdf' app.pk %}">Preview admission letter</a></p>{% endif %}
+<h3>History</h3><table>{% for h in app.history.all %}<tr><td>{{ h.at|date:"d M Y H:i" }}</td><td>{{ h.old_status }} to {{ h.new_status }}</td><td>{{ h.changed_by }}</td><td>{{ h.note }}</td></tr>{% endfor %}</table>{% endblock %}

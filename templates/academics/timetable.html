@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block title %}Timetable{% endblock %}
+{% block content %}<h1>Timetable - {{ student.get_full_name }}</h1><table><tr><th>When</th><th>Course</th><th>Lesson</th><th>Where</th></tr>
+{% for l in lessons %}<tr><td>{{ l.start|date:"D d M Y, H:i" }} ({{ l.duration_minutes }} min)</td><td>{{ l.course.title }}</td><td>{{ l.title }}</td><td>{{ l.get_mode_display }}{% if l.location %}: {{ l.location }}{% endif %}</td></tr>{% empty %}<tr><td colspan="4">No upcoming lessons.</td></tr>{% endfor %}</table>{% endblock %}

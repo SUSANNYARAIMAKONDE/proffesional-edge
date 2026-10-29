@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}Progress report{% endblock %}
+{% block content %}<h1>Progress report</h1><p><strong>{{ student.get_full_name }}</strong> {% if student.student_id %}({{ student.student_id }}){% endif %} <a class="btn" href="{% url 'report_pdf' student.pk %}">Download PDF</a></p>
+<p><small>Only released results are shown. Practice quizzes and assignments are tutor assessments, not official examination results.</small></p>
+{% for r in rows %}<div class="card" style="margin-bottom:12px"><h3>{{ r.course.title }}</h3><p>Attendance: {% if r.held %}{{ r.attended }} / {{ r.held }} lessons ({{ r.attendance_pct }}%){% else %}no lessons recorded yet{% endif %}</p>
+<table>{% for t,m,mx,fb in r.assignments %}<tr><td>Assignment: {{ t }}</td><td>{{ m }} / {{ mx }}</td><td>{{ fb }}</td></tr>{% endfor %}{% for t,sc,tot in r.quizzes %}<tr><td>Quiz: {{ t }}</td><td>{{ sc }} / {{ tot }}</td><td></td></tr>{% endfor %}</table></div>{% empty %}<p>No enrolments yet.</p>{% endfor %}{% endblock %}

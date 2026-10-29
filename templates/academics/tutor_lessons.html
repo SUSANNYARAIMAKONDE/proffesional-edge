@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block title %}Lessons{% endblock %}
+{% block content %}<h1>{{ course.title }} - lessons</h1><p><a href="{% url 'tutor_course' course.pk %}">Back to course</a></p>
+<table>{% for l in lessons %}<tr><td>{{ l.start|date:"D d M Y H:i" }}</td><td>{{ l.title }}</td><td>{{ l.get_status_display }}</td><td><a href="{% url 'attendance_register' l.pk %}">Attendance</a></td></tr>{% empty %}<tr><td>No lessons yet.</td></tr>{% endfor %}</table>
+<h3>Schedule a lesson</h3><p><small>For online lessons paste a Zoom/Google Meet link in Location.</small></p><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Add lesson</button></form>{% endblock %}

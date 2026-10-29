@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}{{ a.title }}{% endblock %}
+{% block content %}<h1>{{ a.title }}</h1><p>{{ a.course }} | Due {{ a.due_date|date:"d M Y H:i" }} | {{ a.max_marks }} marks</p><p>{{ a.instructions|linebreaksbr }}</p>
+{% if sub and sub.released %}<div class="msg success"><strong>Result: {{ sub.marks }} / {{ a.max_marks }}</strong><br>{{ sub.feedback|linebreaksbr }}</div>{% endif %}
+{% if sub %}<p>Last submitted: {{ sub.submitted_at|date:"d M Y H:i" }}{% if sub.file %} - <a href="{% url 'submission_file' sub.pk %}">your file</a>{% endif %}</p>{% endif %}
+{% if not locked %}<form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button type="submit">{% if sub %}Resubmit{% else %}Submit{% endif %}</button></form>{% endif %}{% endblock %}

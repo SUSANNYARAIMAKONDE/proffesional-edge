@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Professional Edge{% endblock %} | Professional Edge Online Learning Hub</title>
+<style>
+:root{--navy:#0b1f4a;--blue:#13408f;--gold:#c9a24a;--grey:#f3f5f9;--ink:#1c2433}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
+header{background:var(--navy);color:#fff}.bar{max-width:1050px;margin:auto;padding:12px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.brand{font-weight:800;font-size:1.25rem;color:#fff;text-decoration:none}.brand span{color:var(--gold)}
+nav a{color:#dfe6f5;text-decoration:none;margin-right:14px}nav a:hover{color:#fff}
+.btn,button{background:var(--gold);color:var(--navy);border:0;padding:9px 16px;border-radius:6px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.alt{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+main{max-width:1050px;margin:auto;padding:24px 18px}
+.hero{background:linear-gradient(120deg,var(--navy),var(--blue));color:#fff;padding:48px 18px}.hero .in{max-width:1050px;margin:auto}
+.hero h1{font-size:clamp(1.6rem,4vw,2.5rem);margin:0 0 10px}.hero p{max-width:620px;color:#dfe6f5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:var(--grey);border-left:4px solid var(--gold);padding:16px;border-radius:6px}
+table{border-collapse:collapse;width:100%}td,th{padding:8px;border-bottom:1px solid #e1e5ee;text-align:left;vertical-align:top}
+input,select,textarea{width:100%;padding:8px;border:1px solid #b9c2d6;border-radius:5px;font:inherit}
+form p{margin:12px 0}form label{font-weight:600;display:block}.helptext{font-size:.85rem;color:#5b6577}.errorlist{color:#b00020;padding-left:18px;margin:4px 0}
+.msg{padding:10px 14px;border-radius:6px;margin-bottom:10px;background:#e8f1ff}.msg.success{background:#e6f6ea}.msg.error{background:#fde8e8}
+.badge{background:var(--navy);color:#fff;padding:2px 9px;border-radius:12px;font-size:.8rem}
+footer{background:var(--navy);color:#b9c4de;padding:22px 18px;margin-top:40px;font-size:.9rem}footer .in{max-width:1050px;margin:auto}footer a{color:var(--gold)}
+</style></head><body>
+<header><div class="bar"><a class="brand" href="{% url 'home' %}">Professional <span>Edge</span></a>
+<nav><a href="{% url 'home' %}">Home</a><a href="{% url 'programmes' %}">Programmes</a><a href="{% url 'contact' %}">Contact</a>
+{% if user.is_authenticated %}<a href="{% url 'dashboard' %}">Dashboard</a>{% if user.is_office_admin %}<a href="{% url 'review_list' %}">Applications</a>{% endif %}{% if user.is_office_admin or user.role == 'finance' %}<a href="{% url 'finance_dashboard' %}">Finance</a>{% endif %}{% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin area</a>{% endif %}<a href="{% url 'password_change' %}">Password</a>
+<form method="post" action="{% url 'logout' %}" style="display:inline">{% csrf_token %}<button class="btn alt" type="submit">Log out</button></form>
+{% else %}<a class="btn alt" href="{% url 'login' %}">Login</a> <a class="btn" href="{% url 'register' %}">Register</a>{% endif %}</nav></div></header>
+{% block hero %}{% endblock %}
+<main>{% for m in messages %}<div class="msg {{ m.tags }}">{{ m }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+<footer><div class="in"><strong>Professional Edge</strong> - Bridging School and Home Learning<br>
+Call/WhatsApp: <a href="https://wa.me/263784189241">+263 784 189 241</a> | <a href="mailto:ppmapuranga95@gmail.com">ppmapuranga95@gmail.com</a><br>
+<a href="{% url 'privacy' %}">Privacy Notice</a> | <a href="{% url 'terms' %}">Terms of Use</a></div></footer>
+</body></html>

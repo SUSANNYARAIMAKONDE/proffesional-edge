@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block hero %}<section class="hero"><div class="in"><h1>Your Academic Success. Our Professional Commitment.</h1>
+<p>Personalised tutorials and organised learning resources for ZIMSEC, Cambridge and Edexcel learners.</p>
+<a class="btn" href="{% url 'register' %}">Enrol Now</a> <a class="btn alt" href="{% url 'programmes' %}">Explore Programmes</a></div></section>{% endblock %}
+{% block content %}
+<h2>Programmes</h2><div class="grid">{% for p in programmes %}<div class="card"><strong>{{ p.name }}</strong><br>{{ p.get_category_display }}{% if p.exam_board %} - {{ p.exam_board }}{% endif %}</div>{% empty %}<p>Programmes will be published soon.</p>{% endfor %}</div>
+<h2>How admission works</h2><div class="grid"><div class="card">1. Create account</div><div class="card">2. Apply</div><div class="card">3. Administrative review</div><div class="card">4. Admission decision</div><div class="card">5. Programme enrolment</div></div>
+{% if news %}<h2>News</h2>{% for n in news %}<div class="card"><strong>{{ n.title }}</strong><p>{{ n.body|linebreaksbr }}</p></div>{% endfor %}{% endif %}
+{% endblock %}

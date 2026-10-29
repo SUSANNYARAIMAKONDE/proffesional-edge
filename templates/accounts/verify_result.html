@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}{% if ok %}<h1>Email verified</h1><p><a class="btn" href="{% url 'login' %}">Log in</a></p>{% else %}<h1>Link invalid or expired</h1><p>Please <a href="{% url 'register' %}">register again</a> or contact us.</p>{% endif %}{% endblock %}

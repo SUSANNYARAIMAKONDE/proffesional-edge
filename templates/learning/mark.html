@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block title %}Mark{% endblock %}
+{% block content %}<h1>{{ s.assignment.title }} - {{ s.student.get_full_name }}</h1><h3>Response</h3><div class="card">{{ s.text|linebreaksbr }}{% if s.file %}<p><a href="{% url 'submission_file' s.pk %}">Download file</a></p>{% endif %}</div>
+<h3>Marking (out of {{ s.assignment.max_marks }})</h3><form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Save</button></form>{% endblock %}

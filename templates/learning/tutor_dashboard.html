@@ -1,0 +1,3 @@
+{% extends "base.html" %}{% block title %}Tutor dashboard{% endblock %}
+{% block content %}<h1>Tutor dashboard</h1><div class="grid">{% for c in courses %}<div class="card"><strong>{{ c.title }}</strong><br><a href="{% url 'tutor_course' c.pk %}">Students &amp; marking</a> | <a href="{% url 'course_detail' c.pk %}">Course page</a></div>{% empty %}<p>No courses assigned to you yet.</p>{% endfor %}</div>
+<p>Open a course to add resources and assignments, schedule lessons and record attendance. Quizzes are set up by an administrator in the office.</p>{% endblock %}

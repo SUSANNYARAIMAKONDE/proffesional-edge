@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}{{ quiz.title }}{% endblock %}
+{% block content %}<h1>{{ quiz.title }}</h1><p><span class="badge">Practice quiz</span> Open {{ quiz.open_at|date:"d M H:i" }} to {{ quiz.close_at|date:"d M H:i" }}. One attempt. Results are not official examination results.</p><p>{{ quiz.instructions|linebreaksbr }}</p>
+{% if attempt %}<div class="msg">Submitted {{ attempt.submitted_at|date:"d M Y H:i" }}.{% if quiz.results_released %} <strong>Score: {{ attempt.score }} / {{ quiz.total_marks }}</strong>{% else %} Your score will appear when your tutor releases results.{% endif %}</div>
+{% elif is_open %}<form method="post">{% csrf_token %}{% for q in questions %}<div class="card" style="margin-bottom:10px"><p><strong>{{ forloop.counter }}. {{ q.text }}</strong> ({{ q.marks }})</p>{% for k,v in q.options %}<label style="font-weight:400"><input type="radio" name="q{{ q.id }}" value="{{ k }}" style="width:auto"> {{ v }}</label>{% endfor %}</div>{% endfor %}<button type="submit">Submit quiz</button></form>
+{% else %}<p>This quiz is not open.</p>{% endif %}{% endblock %}
